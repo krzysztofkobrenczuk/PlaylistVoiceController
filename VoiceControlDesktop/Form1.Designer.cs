@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.prevBtn = new System.Windows.Forms.Button();
             this.nextBtn = new System.Windows.Forms.Button();
+            this.playBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -68,7 +69,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(646, 67);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(132, 355);
+            this.listBox1.Size = new System.Drawing.Size(205, 355);
             this.listBox1.TabIndex = 7;
             // 
             // OnBtn
@@ -83,7 +84,7 @@
             // 
             // MicroBtn
             // 
-            this.MicroBtn.Location = new System.Drawing.Point(712, 28);
+            this.MicroBtn.Location = new System.Drawing.Point(718, 28);
             this.MicroBtn.Name = "MicroBtn";
             this.MicroBtn.Size = new System.Drawing.Size(66, 23);
             this.MicroBtn.TabIndex = 10;
@@ -112,7 +113,7 @@
             // 
             // nextBtn
             // 
-            this.nextBtn.Location = new System.Drawing.Point(718, 428);
+            this.nextBtn.Location = new System.Drawing.Point(791, 428);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Size = new System.Drawing.Size(60, 23);
             this.nextBtn.TabIndex = 13;
@@ -120,11 +121,22 @@
             this.nextBtn.UseVisualStyleBackColor = true;
             this.nextBtn.Click += new System.EventHandler(this.nextBtn_Click);
             // 
+            // playBtn
+            // 
+            this.playBtn.Location = new System.Drawing.Point(718, 428);
+            this.playBtn.Name = "playBtn";
+            this.playBtn.Size = new System.Drawing.Size(67, 23);
+            this.playBtn.TabIndex = 14;
+            this.playBtn.Text = "Play";
+            this.playBtn.UseVisualStyleBackColor = true;
+            this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(790, 457);
+            this.ClientSize = new System.Drawing.Size(863, 457);
+            this.Controls.Add(this.playBtn);
             this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.prevBtn);
             this.Controls.Add(this.label2);
@@ -136,6 +148,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+           
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,6 +165,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button prevBtn;
         private System.Windows.Forms.Button nextBtn;
+        private System.Windows.Forms.Button playBtn;
     }
 }
 

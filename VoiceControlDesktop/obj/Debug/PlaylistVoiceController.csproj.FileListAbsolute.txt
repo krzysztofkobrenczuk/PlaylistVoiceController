@@ -4,7 +4,6 @@ C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceCo
 C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\obj\Debug\PlaylistVoiceController.csproj.GenerateResource.Cache
 C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\obj\Debug\VoiceControlDesktop.exe
 C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\obj\Debug\VoiceControlDesktop.pdb
-C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\bin\Debug\youtube_client_secret.json
 C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\bin\Debug\VoiceControlDesktop.exe.config
 C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\bin\Debug\VoiceControlDesktop.exe
 C:\Users\Senex\documents\visual studio 2015\Projects\VoiceControlDesktop\VoiceControlDesktop\bin\Debug\VoiceControlDesktop.pdb

@@ -57,12 +57,18 @@ namespace VoiceControlDesktop
         {
             listBox1.Items.Clear();
 
-            string playListId = aPlaylistBox.Text;
+            if(aPlaylistBox.Text == "") {
+                MessageBox.Show("Invalid Playlist Id");
+            }
+            
+            else{
+                string playListId = aPlaylistBox.Text;
 
-            _videos = _youtube.GetPlaylistVideos(playListId).ToArray();
+                _videos = _youtube.GetPlaylistVideos(playListId).ToArray();
 
-            webBrowser1.Navigate(YoutubeApiWrapper.GetVideoEmbedHtml(_videos[0].Id));
-            listBox1.Items.AddRange(_videos.Select(v => v.Title).Cast<object>().ToArray());           
+                webBrowser1.Navigate(YoutubeApiWrapper.GetVideoEmbedHtml(_videos[0].Id));
+                listBox1.Items.AddRange(_videos.Select(v => v.Title).Cast<object>().ToArray());
+            }          
         }
 
         void recEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
@@ -103,5 +109,12 @@ namespace VoiceControlDesktop
         {
             PlayPreviousVideo();
         }
+
+        private void playBtn_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Navigate(YoutubeApiWrapper.GetVideoEmbedHtml(_videos[listBox1.SelectedIndex].Id));
+        }
+
+ 
     }
 }
