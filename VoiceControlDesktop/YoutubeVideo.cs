@@ -15,7 +15,6 @@ namespace VoiceControlDesktop
         {
             Id = id;
             Title = title;
-            //YoutubeApi.GetVideoInfo(this);
         }
     }
 }
