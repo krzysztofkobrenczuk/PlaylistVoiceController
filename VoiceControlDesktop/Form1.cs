@@ -15,77 +15,93 @@ using Microsoft.Speech.Recognition;
 namespace VoiceControlDesktop
 {
     public partial class Form1 : Form
-    {        
-        int i = 0;
+    {
+        private int _actualVideoId;
+        private readonly YoutubeApiWrapper _youtube = new YoutubeApiWrapper("youtube-api-key");
+
+        private YoutubeVideo[] _videos;
+
         SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine();
 
         public Form1()
         {
             InitializeComponent();
+            _actualVideoId = 0;
+
+            try
+            {
+                Choices commands = new Choices();
+                commands.Add(new string[] { "dalej", "poprzednia"});
+                GrammarBuilder gBuilder = new GrammarBuilder();
+                gBuilder.Append(commands);
+                Grammar grammar = new Grammar(gBuilder);
+
+                recEngine.LoadGrammarAsync(grammar);
+                recEngine.SetInputToDefaultAudioDevice();
+                recEngine.SpeechRecognized += recEngine_SpeechRecognized;
+
+                recEngine.RecognizeAsync(RecognizeMode.Multiple);
+                MicroBtn.Enabled = true;
+            }
+            catch (PlatformNotSupportedException e)
+            {
+                MessageBox.Show(this, e.Message, "Platform not supported", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MicroBtn.Text = "Speech recognition not available";
+                MicroBtn.Enabled = false;
+            }
+
+
         }
 
         private void OnBtn_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
+
             string playListId = aPlaylistBox.Text;
-            YoutubeVideo[] videos = YoutubeApi.GetPlaylist(playListId);
 
-            i = 0;
-            string videoId = videos[i].id.ToString();
-            webBrowser1.DocumentText = @"<object width='425' height='355'><param name='movie' value='http://www.youtube.com/v/" + videoId + "?version=3&amp;autoplay=1" + "'></param><param name='wmode' value='transparent'></param><embed src='http://www.youtube.com/v/" + videoId + "?version=3&amp;autoplay=1" + "' type='application/x-shockwave-flash' wmode='transparent' width='425' height='355'></embed></object>";
+            _videos = _youtube.GetPlaylistVideos(playListId).ToArray();
 
-            foreach (var video in videos)
-            {
-                listBox1.Items.Add(video.id);
-            }
-
-            Choices commands = new Choices();
-            commands.Add(new string[] { "start", "dalej", "poprzednia", "losuj" });
-            GrammarBuilder gBuilder = new GrammarBuilder();
-            gBuilder.Append(commands);
-            Grammar grammar = new Grammar(gBuilder);
-
-            recEngine.LoadGrammarAsync(grammar);
-            recEngine.SetInputToDefaultAudioDevice();
-            recEngine.SpeechRecognized += recEngine_SpeechRecognized;
-
-            recEngine.RecognizeAsync(RecognizeMode.Multiple);
-            OffBtn.Enabled = true;
+            webBrowser1.Navigate(YoutubeApiWrapper.GetVideoEmbedHtml(_videos[0].Id));
+            listBox1.Items.AddRange(_videos.Select(v => v.Title).Cast<object>().ToArray());           
         }
 
         void recEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            string playListId = aPlaylistBox.Text;
-            YoutubeVideo[] videos = YoutubeApi.GetPlaylist(playListId);
 
             switch (e.Result.Text)
             {
                 case "dalej":
-                    i++;
-                    string videoIdNext = videos[i].id.ToString();
-                    webBrowser1.DocumentText = @"<object width='425' height='355'><param name='movie' value='http://www.youtube.com/v/" + videoIdNext + "?version=3&amp;autoplay=1" + "'></param><param name='wmode' value='transparent'></param><embed src='http://www.youtube.com/v/" + videoIdNext + "?version=3&amp;autoplay=1" + "' type='application/x-shockwave-flash' wmode='transparent' width='425' height='355'></embed></object>";  
+                    PlayNextVideo();
                     break;
                 case "poprzednia":
-                    i--;
-                    string videoIdPrevious = videos[i].id.ToString();
-                    webBrowser1.DocumentText = @"<object width='425' height='355'><param name='movie' value='http://www.youtube.com/v/" + videoIdPrevious + "?version=3&amp;autoplay=1" + "'></param><param name='wmode' value='transparent'></param><embed src='http://www.youtube.com/v/" + videoIdPrevious + "?version=3&amp;autoplay=1" + "' type='application/x-shockwave-flash' wmode='transparent' width='425' height='355'></embed></object>";
-                    break;
-
-                case "losuj":
-
-
+                    PlayPreviousVideo();
                     break;
             }
         }
         private void OffBtn_Click(object sender, EventArgs e)
         {
             recEngine.RecognizeAsyncStop();
-            OffBtn.Enabled = false;
+            MicroBtn.Enabled = false;
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
+        private void PlayNextVideo()
+        {
+            webBrowser1.Navigate(YoutubeApiWrapper.GetVideoEmbedHtml(_videos[++_actualVideoId].Id));
+        }
+        private void PlayPreviousVideo()
+        {
+            webBrowser1.Navigate(YoutubeApiWrapper.GetVideoEmbedHtml(_videos[--_actualVideoId].Id));
+        }
+
+        private void nextBtn_Click(object sender, EventArgs e)
+        {
+            PlayNextVideo();
+        }
+
+        private void prevBtn_Click(object sender, EventArgs e)
+        {
+            PlayPreviousVideo();
         }
     }
 }

@@ -8,12 +8,14 @@ namespace VoiceControlDesktop
 {
     public class YoutubeVideo
     {
-        public string id;
+        public string Id { get; set; }
+        public string Title { get; set; }
   
-        public YoutubeVideo(string id)
+        public YoutubeVideo(string id, string title)
         {
-            this.id = id;
-            YoutubeApi.GetVideoInfo(this);
+            Id = id;
+            Title = title;
+            //YoutubeApi.GetVideoInfo(this);
         }
     }
 }
